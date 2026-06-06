@@ -9,7 +9,11 @@
 package clipboard
 
 /*
-#cgo CFLAGS: -I/usr/X11R6/include
+// X11 headers live in different prefixes across the BSDs: OpenBSD ships
+// them in base under /usr/X11R6, FreeBSD installs the libX11 port under
+// /usr/local, and NetBSD uses /usr/X11R7 (base) or /usr/pkg (pkgsrc).
+// List them all; the compiler ignores include paths that do not exist.
+#cgo CFLAGS: -I/usr/X11R6/include -I/usr/local/include -I/usr/X11R7/include -I/usr/pkg/include
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
