@@ -113,7 +113,11 @@ jobs:
       with:
         usesh: true
         prepare: |
-          /usr/sbin/pkg_add go libX11
+          # NetBSD ships X11 in base under /usr/X11R7; only Go needs a
+          # package. Try pkgsrc's libX11 too in case the base X11 set is
+          # absent, but don't fail prepare if it is unavailable.
+          /usr/sbin/pkg_add go
+          /usr/sbin/pkg_add libX11 || pkgin -y install libX11 || true
         run: |
           go version
           CGO_ENABLED=1 go build .
